@@ -18,3 +18,16 @@ SQL-powered analytics project in the consumer goods domain. Delivered actionable
   - [10. Top-Selling Products by Division](#10-top-selling-products-by-division)
 - [Dashboard Overview](#dashboard-overview)
 - [Key Learnings](#key-learnings)
+
+## 1. Market Presence by Region  
+**Objective**: Identify in which APAC markets the customer **“Atliq Exclusive”** operates.
+
+**Query Techniques**:  
+- `SELECT DISTINCT`  
+- Filtering with `WHERE`
+
+**SQL Query**:
+```sql
+SELECT DISTINCT market
+FROM dim_customer
+WHERE region = "APAC" AND customer = "Atliq Exclusive";
