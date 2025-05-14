@@ -72,4 +72,174 @@ SELECT segment, COUNT(DISTINCT product_code) AS product_count
 FROM dim_product
 GROUP BY segment
 ORDER BY product_count DESC;
+```
+## 4. Segment Growth Insights
+**Objective**: Identify which segment had the most increase in unique products in 2021 compared to 2020.
+
+**Query Techniques**:
+- Using Common Table Expressions (CTEs) for comparing product counts across years.
+- `JOIN` to combine data for 2020 and 2021.
+- Calculating differences using simple subtraction.
+
+```sql
+WITH cte1 AS (
+    SELECT p.segment, COUNT(DISTINCT p.product_code) AS product_count_2020
+    FROM dim_product p
+    LEFT JOIN fact_gross_price g
+    USING (product_code)
+    WHERE g.fiscal_year = 2020
+    GROUP BY segment
+),
+cte2 AS (
+    SELECT p.segment, COUNT(DISTINCT p.product_code) AS product_count_2021
+    FROM dim_product p
+    LEFT JOIN fact_gross_price g
+    USING (product_code)
+    WHERE g.fiscal_year = 2021
+    GROUP BY segment
+)
+SELECT *, (product_count_2021 - product_count_2020) AS Difference
+FROM cte1
+JOIN cte2
+USING (segment)
+ORDER BY Difference DESC;
+```
+## 5. Cost Extremes in Manufacturing
+**Objective**: Identify products with the highest and lowest manufacturing costs.
+
+**Query Techniques**:
+- `JOIN` to link product and manufacturing cost data.
+- Use of subqueries to identify the maximum and minimum manufacturing costs.
+- Sorting to highlight cost extremes.
+
+```sql
+SELECT p.product_code, p.product, m.manufacturing_cost
+FROM dim_product p
+JOIN fact_manufacturing_cost m
+USING (product_code)
+WHERE m.manufacturing_cost IN (
+    (SELECT MAX(manufacturing_cost) FROM fact_manufacturing_cost),
+    (SELECT MIN(manufacturing_cost) FROM fact_manufacturing_cost)
+)
+ORDER BY m.manufacturing_cost DESC;
+```
+## 6. Top Customers by Discount Advantage
+**Objective**: Identify the top 5 customers in India with the highest average pre-invoice discount in FY 2021.
+
+**Query Techniques**:
+- `JOIN` to merge customer and invoice data.
+- `WHERE` to filter by fiscal year and market.
+- Sorting and limiting results to get top 5 customers.
+
+```sql
+SELECT customer_code, customer, pre_invoice_discount_pct
+FROM dim_customer c
+JOIN fact_pre_invoice_deductions i
+USING (customer_code)
+WHERE fiscal_year = 2021 AND market = "india"
+ORDER BY pre_invoice_discount_pct DESC
+LIMIT 5;
+```
+## 7. Monthly Sales Trend Report
+**Objective**: Generate a report showing the monthly gross sales for "Atliq Exclusive" to identify low and high-performing months, aiding in strategic decision-making.
+
+**Query Techniques**:
+- Use of `WITH` clause to create a Common Table Expression (CTE) for month extraction.
+- `JOIN` operations across sales, product, and customer data.
+- Aggregating sales data by month and fiscal year.
+- Calculating gross sales in millions for a clear and digestible representation.
+
+```sql
+WITH cte AS (
+    SELECT *, MONTH(DATE_ADD(date, INTERVAL 4 MONTH)) AS month
+    FROM gdb023.fact_sales_monthly
+)
+SELECT s.month, s.fiscal_year, 
+       ROUND((SUM((s.sold_quantity * g.gross_price) / 1000000)), 2) AS gross_sales_mln
+FROM cte s
+JOIN fact_gross_price g USING (product_code)
+JOIN dim_customer c USING (customer_code)
+WHERE customer = "Atliq Exclusive"
+GROUP BY s.month, s.fiscal_year;
+```
+## 8. Best-Performing Quarter
+**Objective**: Determine which quarter of the fiscal year 2020 had the highest total sold quantity, aiding in strategic planning and inventory forecasting.
+
+**Query Techniques**:
+- Use of `CASE` statement to categorize months into quarters.
+- Aggregation of sold quantities by quarter.
+- Filtering for the fiscal year 2020.
+- Sorting the results by total sold quantity in descending order.
+
+```sql
+WITH cte AS (
+    SELECT MONTH(DATE_ADD(date, INTERVAL 4 MONTH)) AS month, sold_quantity, fiscal_year
+    FROM fact_sales_monthly
+)
+SELECT CASE
+            WHEN month IN (1, 2, 3) THEN 'Q1'
+            WHEN month IN (4, 5, 6) THEN 'Q2'
+            WHEN month IN (7, 8, 9) THEN 'Q3'
+            ELSE 'Q4'
+        END AS Quarters,
+       ROUND((SUM(sold_quantity) / 1000000), 2) AS_
+```
+## 9. Channel-wise Sales Contribution
+**Objective**: Analyze the sales contribution by different sales channels for the fiscal year 2021, helping identify the most effective sales channels for driving revenue.
+
+**Query Techniques**:
+- Aggregating sales by channel using `SUM()`.
+- Calculating the percentage contribution of each channel to the total sales.
+- Use of `WITH` clause to simplify query structure and break it into manageable parts.
+
+```sql
+WITH cte AS (
+    SELECT channel, 
+           ROUND(SUM((sold_quantity * gross_price) / 100000), 2) AS gross_sales_mln
+    FROM fact_sales_monthly s
+    JOIN dim_customer c USING(customer_code)
+    JOIN fact_gross_price g USING(product_code)
+    WHERE s.fiscal_year = 2021
+    GROUP BY channel
+)
+SELECT *, 
+       ROUND((gross_sales_mln / SUM(gross_sales_mln) OVER()) * 100, 2) AS percentage
+FROM cte;
+```
+## 10. Top-Selling Products by Division
+**Objective**: Identify the top 3 best-selling products in each division for the fiscal year 2021, providing insights into product performance across different divisions.
+
+**Query Techniques**:
+- Summing up sold quantities for each product using `SUM()`.
+- Ranking products within each division using `ROW_NUMBER()` for identifying the top performers.
+- Using `PARTITION BY` within the `ROW_NUMBER()` function to rank products by division.
+
+```sql
+WITH cte AS (
+    SELECT division, 
+           p.product_code, 
+           p.product, 
+           SUM(sold_quantity) AS total_sold_qty
+    FROM fact_sales_monthly s
+    JOIN dim_customer c USING(customer_code)
+    JOIN dim_product p USING(product_code)
+    WHERE s.fiscal_year = 2021
+    GROUP BY division, p.product_code, p.product
+),
+rnk AS (
+    SELECT division, 
+           product_code, 
+           product, 
+           total_sold_qty,
+           ROW_NUMBER() OVER (PARTITION BY division ORDER BY total_sold_qty DESC) AS rank_order
+    FROM cte
+)
+SELECT division, 
+       product_code, 
+       product, 
+       rank_order, 
+       total_sold_qty
+FROM rnk
+WHERE rank_order <= 3;
+```
 
