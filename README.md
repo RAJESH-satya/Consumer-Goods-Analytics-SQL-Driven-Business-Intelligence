@@ -32,6 +32,9 @@ SELECT DISTINCT market
 FROM dim_customer
 WHERE region = "APAC" AND customer = "Atliq Exclusive";
 ```
+### Market Presence by Region  
+**Insight**:  
+The query identifies the specific APAC markets where "Atliq Exclusive" operates, providing a clear geographical scope for business operations in the region. This insight can help prioritize marketing and expansion efforts in key markets.
 
 ## 2. Product Growth Analysis (2020 vs 2021)  
 **Objective**: Measure the increase in unique products sold from 2020 to 2021.
@@ -59,6 +62,10 @@ SELECT *,
   ROUND(((unique_products_2021 - unique_products_2020) * 100 / unique_products_2020), 2) AS percentage_chg
 FROM cte;
 ```
+### Product Growth Analysis (2020 vs 2021)  
+**Insight**:  
+The percentage change in unique products between 2020 and 2021 highlights the product innovation and expansion efforts of the business. A positive growth rate suggests an increase in product diversification, which could lead to new market opportunities.
+
 ## 3. Segment-wise Product Distribution
 **Objective**: Provide a report of all unique product counts for each segment, sorted by descending order of product counts.
 
@@ -73,6 +80,10 @@ FROM dim_product
 GROUP BY segment
 ORDER BY product_count DESC;
 ```
+### Segment-wise Product Distribution  
+**Insight**:  
+By identifying which segments carry the most products, this insight enables targeted business strategies. It informs inventory management, sales strategies, and potential opportunities for product bundling within the highest-performing segments.
+
 ## 4. Segment Growth Insights
 **Objective**: Identify which segment had the most increase in unique products in 2021 compared to 2020.
 
@@ -104,6 +115,10 @@ JOIN cte2
 USING (segment)
 ORDER BY Difference DESC;
 ```
+### Segment Growth Insights  
+**Insight**:  
+This analysis uncovers which segments experienced the most significant growth in terms of unique products between 2020 and 2021. Understanding segment growth helps in focusing resources on high-growth areas, improving product offerings, and making strategic decisions about future investments.
+
 ## 5. Cost Extremes in Manufacturing
 **Objective**: Identify products with the highest and lowest manufacturing costs.
 
@@ -123,6 +138,10 @@ WHERE m.manufacturing_cost IN (
 )
 ORDER BY m.manufacturing_cost DESC;
 ```
+### Cost Extremes in Manufacturing  
+**Insight**:  
+By identifying products with the highest and lowest manufacturing costs, this query reveals potential areas for cost optimization. Analyzing cost extremes can lead to better pricing strategies and more efficient resource allocation in manufacturing.
+
 ## 6. Top Customers by Discount Advantage
 **Objective**: Identify the top 5 customers in India with the highest average pre-invoice discount in FY 2021.
 
@@ -140,6 +159,10 @@ WHERE fiscal_year = 2021 AND market = "india"
 ORDER BY pre_invoice_discount_pct DESC
 LIMIT 5;
 ```
+### Top Customers by Discount Advantage  
+**Insight**:  
+Identifying the top customers who benefit from the highest pre-invoice discounts offers valuable insights into customer relationships. This information helps in making informed decisions about future pricing, customer loyalty programs, and the long-term value of these customers.
+
 ## 7. Monthly Sales Trend Report
 **Objective**: Generate a report showing the monthly gross sales for "Atliq Exclusive" to identify low and high-performing months, aiding in strategic decision-making.
 
@@ -162,6 +185,10 @@ JOIN dim_customer c USING (customer_code)
 WHERE customer = "Atliq Exclusive"
 GROUP BY s.month, s.fiscal_year;
 ```
+### Monthly Sales Trend Report  
+**Insight**:  
+This report on monthly gross sales allows the company to spot seasonal trends, recognize high-sales periods, and adjust sales and marketing strategies accordingly. Understanding the monthly variation in sales helps in improving forecasting accuracy and business planning.
+
 ## 8. Best-Performing Quarter
 **Objective**: Determine which quarter of the fiscal year 2020 had the highest total sold quantity, aiding in strategic planning and inventory forecasting.
 
@@ -184,6 +211,10 @@ SELECT CASE
         END AS Quarters,
        ROUND((SUM(sold_quantity) / 1000000), 2) AS_
 ```
+### Best-Performing Quarter  
+**Insight**:  
+By identifying the quarter with the highest sold quantity in 2020, this analysis helps in determining the peak performance period. Businesses can then plan promotions, product launches, and stock allocation based on historical peak periods.
+
 ## 9. Channel-wise Sales Contribution
 **Objective**: Analyze the sales contribution by different sales channels for the fiscal year 2021, helping identify the most effective sales channels for driving revenue.
 
@@ -206,6 +237,10 @@ SELECT *,
        ROUND((gross_sales_mln / SUM(gross_sales_mln) OVER()) * 100, 2) AS percentage
 FROM cte;
 ```
+### Channel-wise Sales Contribution  
+**Insight**:  
+This analysis reveals the contribution of each sales channel, helping businesses understand the effectiveness of different distribution methods. Optimizing high-performing channels and improving low-performing ones can significantly enhance sales performance.
+
 ## 10. Top-Selling Products by Division
 **Objective**: Identify the top 3 best-selling products in each division for the fiscal year 2021, providing insights into product performance across different divisions.
 
@@ -242,4 +277,7 @@ SELECT division,
 FROM rnk
 WHERE rank_order <= 3;
 ```
+### Top-Selling Products by Division  
+**Insight**:  
+Identifying the top-selling products within each division provides insight into product performance, which can inform strategic decisions about inventory management, product marketing, and sales efforts. By focusing on the highest performers, businesses can leverage these products for maximum profitability.
 
