@@ -31,3 +31,45 @@ SQL-powered analytics project in the consumer goods domain. Delivered actionable
 SELECT DISTINCT market
 FROM dim_customer
 WHERE region = "APAC" AND customer = "Atliq Exclusive";
+```
+
+## 2. Product Growth Analysis (2020 vs 2021)  
+**Objective**: Measure the increase in unique products sold from 2020 to 2021.
+
+**Query Techniques**:  
+- Subqueries  
+- `COUNT(DISTINCT)`  
+- CTE (Common Table Expression)  
+- Arithmetic calculation
+
+**SQL Query**:
+```sql
+WITH cte AS (
+  SELECT
+    (SELECT COUNT(DISTINCT p.product_code)
+     FROM dim_product p
+     JOIN fact_gross_price g ON p.product_code = g.product_code
+     WHERE fiscal_year = 2020) AS unique_products_2020,
+    (SELECT COUNT(DISTINCT p.product_code)
+     FROM dim_product p
+     JOIN fact_gross_price g ON p.product_code = g.product_code
+     WHERE fiscal_year = 2021) AS unique_products_2021
+)
+SELECT *,
+  ROUND(((unique_products_2021 - unique_products_2020) * 100 / unique_products_2020), 2) AS percentage_chg
+FROM cte;
+```
+## 3. Segment-wise Product Distribution
+**Objective**: Provide a report of all unique product counts for each segment, sorted by descending order of product counts.
+
+**Query Techniques**:
+- Using `COUNT DISTINCT` to find unique products.
+- `GROUP BY` to aggregate product counts by segment.
+- `ORDER BY` to sort segments by product count in descending order.
+
+```sql
+SELECT segment, COUNT(DISTINCT product_code) AS product_count
+FROM dim_product
+GROUP BY segment
+ORDER BY product_count DESC;
+
