@@ -302,3 +302,14 @@ WHERE rank_order <= 3;
 **Insight**:  
 Identifying the top-selling products within each division provides insight into product performance, which can inform strategic decisions about inventory management, product marketing, and sales efforts. By focusing on the highest performers, businesses can leverage these products for maximum profitability.
 
+## Key Learnings
+
+- **SQL Proficiency**: Gained deeper understanding of writing efficient queries using joins, CTEs, filtering, and aggregation techniques.
+- **Data Modeling Thinking**: Learned to structure data logically to answer business questions effectively.
+- **Analytical Approach**: Improved at breaking down complex requests into sequential SQL logic for accurate analysis.
+- **Window Functions**: Mastered ranking and partitioning to derive advanced insights such as top-N analysis.
+- **Business Insight Development**: Enhanced ability to translate raw data into meaningful metrics like growth rates, discount trends, and contribution analysis.
+- **Clean Query Writing**: Practiced writing readable, maintainable SQL scripts ideal for team collaboration or review.
+- **Decision-Oriented Reporting**: Focused on crafting insights useful for executive-level business decision-making.
+
+
