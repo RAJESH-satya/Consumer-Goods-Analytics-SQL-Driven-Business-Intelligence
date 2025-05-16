@@ -63,6 +63,8 @@ SELECT DISTINCT market
 FROM dim_customer
 WHERE region = "APAC" AND customer = "Atliq Exclusive";
 ```
+![image](https://github.com/user-attachments/assets/245b3798-f381-4195-87ca-354d12236119)
+
 **Insight**:  
 The query identifies the specific APAC markets where "Atliq Exclusive" operates, providing a clear geographical scope for business operations in the region. This insight can help prioritize marketing and expansion efforts in key markets.
 
