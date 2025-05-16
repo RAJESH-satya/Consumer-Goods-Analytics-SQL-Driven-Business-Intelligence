@@ -16,14 +16,12 @@ SQL-powered analytics project in the consumer goods domain. Delivered actionable
   - [8. Best-Performing Quarter](#8-best-performing-quarter)
   - [9. Channel-wise Sales Contribution](#9-channel-wise-sales-contribution)
   - [10. Top-Selling Products by Division](#10-top-selling-products-by-division)
-- [Dashboard Overview](#dashboard-overview)
 - [Key Learnings](#key-learnings)
 
 ## Data Sources
 
 - **SQL Dataset**:  
   The dataset was provided in the form of SQL table definitions and data inserts. All queries were written using this dataset structure.  
-  You can find the complete SQL schema and sample data in the [`data.sql`](./data.sql) file included in this repository.
 ## Techniques Implemented
 
 - **Data Extraction Using SQL**:  
