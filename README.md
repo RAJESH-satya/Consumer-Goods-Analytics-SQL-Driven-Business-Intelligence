@@ -92,6 +92,8 @@ SELECT *,
   ROUND(((unique_products_2021 - unique_products_2020) * 100 / unique_products_2020), 2) AS percentage_chg
 FROM cte;
 ```
+![image](https://github.com/user-attachments/assets/a28ee1db-a74a-46af-8962-52c6bea3962f)
+
 **Insight**:  
 The percentage change in unique products between 2020 and 2021 highlights the product innovation and expansion efforts of the business. A positive growth rate suggests an increase in product diversification, which could lead to new market opportunities.
 
