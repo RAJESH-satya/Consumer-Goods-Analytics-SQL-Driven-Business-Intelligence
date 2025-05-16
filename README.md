@@ -94,8 +94,7 @@ SELECT *,
   ROUND(((unique_products_2021 - unique_products_2020) * 100 / unique_products_2020), 2) AS percentage_chg
 FROM cte;
 ```
-![image](https://github.com/user-attachments/assets/a28ee1db-a74a-46af-8962-52c6bea3962f)
-
+![image](https://github.com/user-attachments/assets/05b8555e-cc3d-4bcb-bb64-093e7d38867d)
 **Insight**:  
 The percentage change in unique products between 2020 and 2021 highlights the product innovation and expansion efforts of the business. A positive growth rate suggests an increase in product diversification, which could lead to new market opportunities.
 
@@ -113,6 +112,7 @@ FROM dim_product
 GROUP BY segment
 ORDER BY product_count DESC;
 ```
+![image](https://github.com/user-attachments/assets/5abf046c-9657-453a-97f1-b1f486c74541)
 **Insight**:  
 By identifying which segments carry the most products, this insight enables targeted business strategies. It informs inventory management, sales strategies, and potential opportunities for product bundling within the highest-performing segments.
 
@@ -147,6 +147,7 @@ JOIN cte2
 USING (segment)
 ORDER BY Difference DESC;
 ```
+![image](https://github.com/user-attachments/assets/ee8b8222-64aa-4ad1-b1a4-0b6715eda362)
 **Insight**:  
 This analysis uncovers which segments experienced the most significant growth in terms of unique products between 2020 and 2021. Understanding segment growth helps in focusing resources on high-growth areas, improving product offerings, and making strategic decisions about future investments.
 
@@ -169,6 +170,7 @@ WHERE m.manufacturing_cost IN (
 )
 ORDER BY m.manufacturing_cost DESC;
 ```
+![image](https://github.com/user-attachments/assets/8c42ee7d-1054-49bb-b9e6-042c71501e59)
 **Insight**:  
 By identifying products with the highest and lowest manufacturing costs, this query reveals potential areas for cost optimization. Analyzing cost extremes can lead to better pricing strategies and more efficient resource allocation in manufacturing.
 
@@ -189,6 +191,7 @@ WHERE fiscal_year = 2021 AND market = "india"
 ORDER BY pre_invoice_discount_pct DESC
 LIMIT 5;
 ```
+![image](https://github.com/user-attachments/assets/9619ea16-286f-4780-a756-ca2766ecaada)
 **Insight**:  
 Identifying the top customers who benefit from the highest pre-invoice discounts offers valuable insights into customer relationships. This information helps in making informed decisions about future pricing, customer loyalty programs, and the long-term value of these customers.
 
@@ -214,6 +217,7 @@ JOIN dim_customer c USING (customer_code)
 WHERE customer = "Atliq Exclusive"
 GROUP BY s.month, s.fiscal_year;
 ```
+![image](https://github.com/user-attachments/assets/ddbf931a-abc5-47dd-a77f-9566560887aa)
 **Insight**:  
 This report on monthly gross sales allows the company to spot seasonal trends, recognize high-sales periods, and adjust sales and marketing strategies accordingly. Understanding the monthly variation in sales helps in improving forecasting accuracy and business planning.
 
@@ -239,6 +243,7 @@ SELECT CASE
         END AS Quarters,
        ROUND((SUM(sold_quantity) / 1000000), 2) AS_
 ```
+![image](https://github.com/user-attachments/assets/f0ef005b-2d11-4f27-b0ae-1c0bf155ddfa)
 **Insight**:  
 By identifying the quarter with the highest sold quantity in 2020, this analysis helps in determining the peak performance period. Businesses can then plan promotions, product launches, and stock allocation based on historical peak periods.
 
@@ -264,6 +269,7 @@ SELECT *,
        ROUND((gross_sales_mln / SUM(gross_sales_mln) OVER()) * 100, 2) AS percentage
 FROM cte;
 ```
+![image](https://github.com/user-attachments/assets/02806c6e-5a40-4c30-8ab2-e3da32054c15)
 **Insight**:  
 This analysis reveals the contribution of each sales channel, helping businesses understand the effectiveness of different distribution methods. Optimizing high-performing channels and improving low-performing ones can significantly enhance sales performance.
 
@@ -303,6 +309,7 @@ SELECT division,
 FROM rnk
 WHERE rank_order <= 3;
 ```
+![image](https://github.com/user-attachments/assets/a8df0c1a-60dd-4159-9e8f-cc704cb65aed)
 **Insight**:  
 Identifying the top-selling products within each division provides insight into product performance, which can inform strategic decisions about inventory management, product marketing, and sales efforts. By focusing on the highest performers, businesses can leverage these products for maximum profitability.
 
