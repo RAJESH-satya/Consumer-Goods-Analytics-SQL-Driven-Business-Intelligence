@@ -19,6 +19,12 @@ SQL-powered analytics project in the consumer goods domain. Delivered actionable
 - [Dashboard Overview](#dashboard-overview)
 - [Key Learnings](#key-learnings)
 
+## Data Sources
+
+- **SQL Dataset**:  
+  The dataset was provided in the form of SQL table definitions and data inserts. All queries were written using this dataset structure.  
+  You can find the complete SQL schema and sample data in the [`data.sql`](./data.sql) file included in this repository.
+
 ## 1. Market Presence by Region  
 **Objective**: Identify in which APAC markets the customer **“Atliq Exclusive”** operates.
 
