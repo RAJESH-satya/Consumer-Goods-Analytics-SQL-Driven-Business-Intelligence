@@ -24,6 +24,31 @@ SQL-powered analytics project in the consumer goods domain. Delivered actionable
 - **SQL Dataset**:  
   The dataset was provided in the form of SQL table definitions and data inserts. All queries were written using this dataset structure.  
   You can find the complete SQL schema and sample data in the [`data.sql`](./data.sql) file included in this repository.
+## Techniques Implemented
+
+- **Data Extraction Using SQL**:  
+  Retrieved relevant information using `SELECT`, `DISTINCT`, `WHERE`, and filtering across dimensions like customer, product, and region.
+
+- **Complex Joins**:  
+  Utilized `INNER JOIN`, `LEFT JOIN`, and `USING` clause to combine data across multiple tables.
+
+- **Common Table Expressions (CTEs)**:  
+  Applied `WITH` clauses to simplify subqueries and structure multi-step analysis cleanly.
+
+- **Aggregation & Grouping**:  
+  Used `COUNT`, `SUM`, `ROUND`, and `GROUP BY` to summarize and compare sales and product data effectively.
+
+- **Window Functions**:  
+  Implemented `ROW_NUMBER()` and `OVER(PARTITION BY...)` to rank top-performing products within each division.
+
+- **Conditional Logic**:  
+  Built quarter-based reports using `CASE WHEN` for logical bucketing of months.
+
+- **Performance Metrics Calculation**:  
+  Derived growth percentages, average discounts, and sales contribution percentages for business impact evaluation.
+
+- **Business-Friendly Formatting**:  
+  Rounded and formatted large numbers (e.g., millions) for presentation to stakeholders.
 
 ## 1. Market Presence by Region  
 **Objective**: Identify in which APAC markets the customer **“Atliq Exclusive”** operates.
